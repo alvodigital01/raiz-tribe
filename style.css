@@ -703,6 +703,10 @@ svg {
 }
 
 .product-card {
+  border-color: #111111;
+}
+
+.product-card {
   overflow: hidden;
   transition:
     transform 200ms ease,
