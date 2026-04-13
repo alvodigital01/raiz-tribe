@@ -63,9 +63,14 @@ if (heroCarousel) {
   const track = heroCarousel.querySelector(".hero-track");
   const slides = Array.from(heroCarousel.querySelectorAll(".hero-slide"));
   const dots = Array.from(heroCarousel.querySelectorAll(".hero-progress-dot"));
+  const prevButton = heroCarousel.querySelector("[data-carousel-prev]");
+  const nextButton = heroCarousel.querySelector("[data-carousel-next]");
+  const currentCounter = heroCarousel.querySelector("[data-carousel-current]");
+  const totalCounter = heroCarousel.querySelector("[data-carousel-total]");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let currentSlide = 0;
   let autoplayId = null;
+  const formatSlideNumber = (index) => String(index + 1).padStart(2, "0");
 
   const setActiveSlide = (index) => {
     currentSlide = (index + slides.length) % slides.length;
@@ -73,9 +78,19 @@ if (heroCarousel) {
       track.style.transform = `translateX(-${currentSlide * 100}%)`;
     }
 
-    dots.forEach((dot, dotIndex) => {
-      dot.classList.toggle("is-active", dotIndex === currentSlide);
+    slides.forEach((slide, slideIndex) => {
+      slide.setAttribute("aria-hidden", String(slideIndex !== currentSlide));
     });
+
+    dots.forEach((dot, dotIndex) => {
+      const isActive = dotIndex === currentSlide;
+      dot.classList.toggle("is-active", isActive);
+      dot.setAttribute("aria-pressed", String(isActive));
+    });
+
+    if (currentCounter) {
+      currentCounter.textContent = formatSlideNumber(currentSlide);
+    }
   };
 
   const stopAutoplay = () => {
@@ -89,16 +104,58 @@ if (heroCarousel) {
     stopAutoplay();
     autoplayId = window.setInterval(() => {
       setActiveSlide(currentSlide + 1);
-    }, 2800);
+    }, 3600);
   };
+
+  const goToSlide = (index) => {
+    setActiveSlide(index);
+    startAutoplay();
+  };
+
+  if (totalCounter) {
+    totalCounter.textContent = formatSlideNumber(slides.length - 1);
+  }
+
+  prevButton?.addEventListener("click", () => {
+    goToSlide(currentSlide - 1);
+  });
+
+  nextButton?.addEventListener("click", () => {
+    goToSlide(currentSlide + 1);
+  });
+
+  dots.forEach((dot, dotIndex) => {
+    dot.addEventListener("click", () => {
+      goToSlide(dotIndex);
+    });
+  });
 
   setActiveSlide(0);
   startAutoplay();
 
   heroCarousel.addEventListener("mouseenter", stopAutoplay);
   heroCarousel.addEventListener("mouseleave", startAutoplay);
+  heroCarousel.addEventListener("focusin", stopAutoplay);
+  heroCarousel.addEventListener("focusout", () => {
+    window.setTimeout(() => {
+      if (!heroCarousel.contains(document.activeElement)) {
+        startAutoplay();
+      }
+    }, 0);
+  });
   heroCarousel.addEventListener("touchstart", stopAutoplay, { passive: true });
   heroCarousel.addEventListener("touchend", startAutoplay, { passive: true });
+  heroCarousel.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      goToSlide(currentSlide - 1);
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      goToSlide(currentSlide + 1);
+    }
+  });
 }
 
 if ("IntersectionObserver" in window) {
