@@ -6,6 +6,7 @@ const navLinks = document.querySelectorAll('.site-nav a[href^="#"], .footer-nav 
 const yearTarget = document.getElementById("current-year");
 const revealItems = document.querySelectorAll(".reveal");
 const heroCarousel = document.querySelector("[data-carousel]");
+const aboutVisual = document.querySelector("[data-about-visual]");
 
 document.documentElement.classList.add("has-motion");
 
@@ -176,6 +177,27 @@ if ("IntersectionObserver" in window) {
   revealItems.forEach((item) => revealObserver.observe(item));
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
+}
+
+if (aboutVisual && window.matchMedia("(pointer: fine)").matches) {
+  const resetAboutVisual = () => {
+    aboutVisual.style.setProperty("--about-offset-x", "0px");
+    aboutVisual.style.setProperty("--about-offset-y", "0px");
+  };
+
+  aboutVisual.addEventListener("pointermove", (event) => {
+    const bounds = aboutVisual.getBoundingClientRect();
+    const offsetX = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const offsetY = (event.clientY - bounds.top) / bounds.height - 0.5;
+    const moveX = `${(offsetX * 8).toFixed(2)}px`;
+    const moveY = `${(offsetY * 8).toFixed(2)}px`;
+
+    aboutVisual.style.setProperty("--about-offset-x", moveX);
+    aboutVisual.style.setProperty("--about-offset-y", moveY);
+  });
+
+  aboutVisual.addEventListener("pointerleave", resetAboutVisual);
+  aboutVisual.addEventListener("blur", resetAboutVisual, true);
 }
 
 window.addEventListener("scroll", updateHeaderState, { passive: true });
