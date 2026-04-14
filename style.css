@@ -1805,7 +1805,7 @@ body.is-ready .hero-visual {
 
 @media (max-width: 720px) {
   body {
-    padding-bottom: 5.5rem;
+    padding-bottom: 0;
   }
 
   .section {
@@ -1945,6 +1945,7 @@ body.is-ready .hero-visual {
 
   .mobile-cta {
     display: block;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.8rem);
   }
 }
 
