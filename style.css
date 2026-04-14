@@ -1816,6 +1816,50 @@ body.is-ready .hero-visual {
     padding-top: 6rem;
   }
 
+  .promotions {
+    padding-top: 0;
+  }
+
+  .promo-shell {
+    gap: 1.35rem;
+    padding: 1.2rem;
+    border-radius: 1.65rem;
+  }
+
+  .promo-copy h2 {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+
+  .promo-copy p {
+    max-width: 26rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .offer-card {
+    padding: 1rem;
+    border-radius: 1.25rem;
+  }
+
+  .offer-media {
+    height: 9.25rem;
+    margin: 0.85rem 0 1rem;
+    border-radius: 0.95rem;
+  }
+
+  .offer-pricing {
+    margin: 0.7rem 0 0.45rem;
+  }
+
+  .offer-pricing strong {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+
+  .offer-highlight {
+    margin-bottom: 0.95rem;
+    font-size: 0.92rem;
+  }
+
   .about-copy {
     gap: 1rem;
   }
@@ -1924,6 +1968,48 @@ body.is-ready .hero-visual {
 
   .button {
     width: 100%;
+  }
+
+  .promo-shell {
+    gap: 1.1rem;
+    padding: 1rem;
+    border-radius: 1.45rem;
+  }
+
+  .promo-copy h2 {
+    font-size: clamp(1.8rem, 9vw, 2.35rem);
+  }
+
+  .promo-copy p {
+    font-size: 0.9rem;
+  }
+
+  .offer-card {
+    padding: 0.9rem;
+    border-radius: 1.1rem;
+  }
+
+  .offer-media {
+    height: 8.4rem;
+    margin: 0.75rem 0 0.9rem;
+  }
+
+  .offer-badge {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+
+  .offer-pricing {
+    gap: 0.4rem;
+  }
+
+  .offer-pricing strong {
+    font-size: clamp(1.85rem, 8vw, 2.45rem);
+  }
+
+  .offer-pricing span,
+  .offer-highlight {
+    font-size: 0.84rem;
   }
 
   .about {
