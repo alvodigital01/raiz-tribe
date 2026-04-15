@@ -893,6 +893,7 @@ svg {
 .product-copy {
   padding: 1rem 1rem 0.9rem;
   border-top: 1px solid #111111;
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .product-copy h3,
@@ -909,6 +910,12 @@ svg {
 .footer-contact p {
   margin: 0 0 0.55rem;
   color: var(--muted);
+}
+
+.product-card .product-category {
+  color: #111111;
+  background: #ffffff;
+  border-color: #111111;
 }
 
 .promotions {
