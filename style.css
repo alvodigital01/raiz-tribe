@@ -732,15 +732,37 @@ svg {
 }
 
 .product-visual {
-  min-height: 17rem;
+  display: flex;
+  align-items: stretch;
+  height: 24rem;
   padding: 1rem;
+}
+
+.product-carousel-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.2rem;
+}
+
+.product-carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.product-carousel-slide {
+  min-width: 100%;
+  height: 100%;
 }
 
 .product-photo {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 15rem;
+  min-height: 0;
+  flex: 1 1 auto;
   object-fit: cover;
   object-position: center;
   border-radius: 1.2rem;
@@ -748,6 +770,60 @@ svg {
 
 .visual-street-two .product-photo {
   object-position: center 82%;
+}
+
+.product-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+  backdrop-filter: blur(10px);
+}
+
+.product-arrow:hover,
+.product-arrow:focus-visible {
+  background: transparent;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.product-arrow:focus-visible {
+  outline: none;
+}
+
+.product-arrow-prev {
+  left: 1.45rem;
+}
+
+.product-arrow-next {
+  right: 1.45rem;
+}
+
+.product-arrow svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+}
+
+.product-visual.is-static .product-arrow {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .product-visual::before {
@@ -815,15 +891,15 @@ svg {
     linear-gradient(180deg, #721e28 0%, #55121a 100%);
 }
 .product-copy {
-  padding: 1.3rem;
+  padding: 1rem 1rem 0.9rem;
   border-top: 1px solid #111111;
 }
 
 .product-copy h3,
 .info-card h3,
 .footer-contact h3 {
-  margin: 0.7rem 0 0.65rem;
-  font-size: 1.35rem;
+  margin: 0.55rem 0 0.45rem;
+  font-size: 1.2rem;
   line-height: 1.15;
 }
 
@@ -831,7 +907,7 @@ svg {
 .info-card p,
 .footer-brand p,
 .footer-contact p {
-  margin: 0 0 0.8rem;
+  margin: 0 0 0.55rem;
   color: var(--muted);
 }
 
@@ -1939,6 +2015,19 @@ body.is-ready .hero-visual {
     height: 2.65rem;
   }
 
+  .product-arrow {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+
+  .product-arrow-prev {
+    left: 1.2rem;
+  }
+
+  .product-arrow-next {
+    right: 1.2rem;
+  }
+
   .product-grid {
     grid-template-columns: 1fr;
   }
@@ -2117,12 +2206,25 @@ body.is-ready .hero-visual {
     height: 2.45rem;
   }
 
+  .product-arrow {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
   .hero-arrow-prev {
     left: 0.9rem;
   }
 
   .hero-arrow-next {
     right: 0.9rem;
+  }
+
+  .product-arrow-prev {
+    left: 1rem;
+  }
+
+  .product-arrow-next {
+    right: 1rem;
   }
 
   .hero-product-title {

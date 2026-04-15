@@ -6,7 +6,9 @@ const navLinks = document.querySelectorAll('.site-nav a[href^="#"], .footer-nav 
 const yearTarget = document.getElementById("current-year");
 const revealItems = document.querySelectorAll(".reveal");
 const heroCarousel = document.querySelector("[data-carousel]");
+const productCarousels = document.querySelectorAll("[data-product-carousel]");
 const aboutVisual = document.querySelector("[data-about-visual]");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 document.documentElement.classList.add("has-motion");
 
@@ -60,24 +62,41 @@ navLinks.forEach((link) => {
   });
 });
 
-if (heroCarousel) {
-  const track = heroCarousel.querySelector(".hero-track");
-  const slides = Array.from(heroCarousel.querySelectorAll(".hero-slide"));
-  const dots = Array.from(heroCarousel.querySelectorAll(".hero-progress-dot"));
-  const prevButton = heroCarousel.querySelector("[data-carousel-prev]");
-  const nextButton = heroCarousel.querySelector("[data-carousel-next]");
-  const currentCounter = heroCarousel.querySelector("[data-carousel-current]");
-  const totalCounter = heroCarousel.querySelector("[data-carousel-total]");
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const initCarousel = (
+  root,
+  {
+    trackSelector,
+    slideSelector,
+    dotSelector,
+    prevSelector,
+    nextSelector,
+    currentSelector,
+    totalSelector,
+    interval = 3600
+  }
+) => {
+  if (!root) return;
+
+  const track = root.querySelector(trackSelector);
+  const slides = Array.from(root.querySelectorAll(slideSelector));
+  const dots = dotSelector ? Array.from(root.querySelectorAll(dotSelector)) : [];
+  const prevButton = prevSelector ? root.querySelector(prevSelector) : null;
+  const nextButton = nextSelector ? root.querySelector(nextSelector) : null;
+  const currentCounter = currentSelector ? root.querySelector(currentSelector) : null;
+  const totalCounter = totalSelector ? root.querySelector(totalSelector) : null;
+
+  if (!track || !slides.length) return;
+
   let currentSlide = 0;
   let autoplayId = null;
   const formatSlideNumber = (index) => String(index + 1).padStart(2, "0");
+  const hasMultipleSlides = slides.length > 1;
+
+  root.classList.toggle("is-static", !hasMultipleSlides);
 
   const setActiveSlide = (index) => {
     currentSlide = (index + slides.length) % slides.length;
-    if (track) {
-      track.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
 
     slides.forEach((slide, slideIndex) => {
       slide.setAttribute("aria-hidden", String(slideIndex !== currentSlide));
@@ -101,11 +120,11 @@ if (heroCarousel) {
   };
 
   const startAutoplay = () => {
-    if (reducedMotion || slides.length < 2) return;
+    if (reducedMotion || !hasMultipleSlides) return;
     stopAutoplay();
     autoplayId = window.setInterval(() => {
       setActiveSlide(currentSlide + 1);
-    }, 3600);
+    }, interval);
   };
 
   const goToSlide = (index) => {
@@ -114,7 +133,7 @@ if (heroCarousel) {
   };
 
   if (totalCounter) {
-    totalCounter.textContent = formatSlideNumber(slides.length - 1);
+    totalCounter.textContent = String(slides.length).padStart(2, "0");
   }
 
   prevButton?.addEventListener("click", () => {
@@ -134,19 +153,19 @@ if (heroCarousel) {
   setActiveSlide(0);
   startAutoplay();
 
-  heroCarousel.addEventListener("mouseenter", stopAutoplay);
-  heroCarousel.addEventListener("mouseleave", startAutoplay);
-  heroCarousel.addEventListener("focusin", stopAutoplay);
-  heroCarousel.addEventListener("focusout", () => {
+  root.addEventListener("mouseenter", stopAutoplay);
+  root.addEventListener("mouseleave", startAutoplay);
+  root.addEventListener("focusin", stopAutoplay);
+  root.addEventListener("focusout", () => {
     window.setTimeout(() => {
-      if (!heroCarousel.contains(document.activeElement)) {
+      if (!root.contains(document.activeElement)) {
         startAutoplay();
       }
     }, 0);
   });
-  heroCarousel.addEventListener("touchstart", stopAutoplay, { passive: true });
-  heroCarousel.addEventListener("touchend", startAutoplay, { passive: true });
-  heroCarousel.addEventListener("keydown", (event) => {
+  root.addEventListener("touchstart", stopAutoplay, { passive: true });
+  root.addEventListener("touchend", startAutoplay, { passive: true });
+  root.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       goToSlide(currentSlide - 1);
@@ -157,7 +176,28 @@ if (heroCarousel) {
       goToSlide(currentSlide + 1);
     }
   });
-}
+};
+
+initCarousel(heroCarousel, {
+  trackSelector: ".hero-track",
+  slideSelector: ".hero-slide",
+  dotSelector: ".hero-progress-dot",
+  prevSelector: "[data-carousel-prev]",
+  nextSelector: "[data-carousel-next]",
+  currentSelector: "[data-carousel-current]",
+  totalSelector: "[data-carousel-total]",
+  interval: 3600
+});
+
+productCarousels.forEach((carousel) => {
+  initCarousel(carousel, {
+    trackSelector: ".product-carousel-track",
+    slideSelector: ".product-carousel-slide",
+    prevSelector: "[data-carousel-prev]",
+    nextSelector: "[data-carousel-next]",
+    interval: 3200
+  });
+});
 
 if ("IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver(
