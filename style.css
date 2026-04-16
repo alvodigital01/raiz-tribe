@@ -1925,9 +1925,13 @@ body.is-ready .hero-visual {
   }
 
   .offer-media {
-    height: 9.25rem;
+    height: 11.5rem;
     margin: 0.85rem 0 1rem;
     border-radius: 0.95rem;
+  }
+
+  .offer-media-street img {
+    transform: translateY(-12px) scale(1.02);
   }
 
   .offer-pricing {
@@ -2087,8 +2091,12 @@ body.is-ready .hero-visual {
   }
 
   .offer-media {
-    height: 8.4rem;
+    height: 10.75rem;
     margin: 0.75rem 0 0.9rem;
+  }
+
+  .offer-media-street img {
+    transform: translateY(-6px) scale(1.01);
   }
 
   .offer-badge {
