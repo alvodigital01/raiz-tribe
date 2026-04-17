@@ -964,6 +964,7 @@ svg {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 0.95rem;
   padding: 1.3rem;
   border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 1.5rem;
@@ -975,15 +976,27 @@ svg {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.offer-media-shell {
+  width: 100%;
+  margin: 0;
+  padding: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 1.1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
+}
+
 .offer-media {
   display: grid;
   place-items: center;
-  margin: 1rem 0 1.1rem;
   padding: 0;
-  height: 10.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.78);
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 16 / 10;
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.12), transparent 55%),
+    rgba(255, 255, 255, 0.08);
   overflow: hidden;
 }
 
@@ -991,15 +1004,13 @@ svg {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center center;
-  border-radius: 0.95rem;
+  border-radius: inherit;
 }
 
 .offer-media-street img {
-  object-position: center top;
-  transform: translateY(-28px) scale(1.03);
-  transform-origin: center top;
+  object-position: center 35%;
 }
 
 .offer-badge {
@@ -1009,7 +1020,6 @@ svg {
 }
 
 .offer-pricing {
-  margin: 1rem 0 0.6rem;
   display: flex;
   align-items: baseline;
   gap: 0.55rem;
@@ -1028,15 +1038,15 @@ svg {
 }
 
 .offer-highlight {
-  margin: 0 0 1.2rem;
+  margin: -0.2rem 0 0.4rem;
   font-size: 1rem;
   font-weight: 700;
 }
 
 .offer-card .button-light {
-  align-self: center;
+  align-self: stretch;
   justify-content: center;
-  min-width: min(100%, 16rem);
+  min-width: 0;
   margin-top: auto;
   border-color: #111111;
   box-shadow:
@@ -1924,18 +1934,22 @@ body.is-ready .hero-visual {
     border-radius: 1.25rem;
   }
 
+  .offer-media-shell {
+    padding: 0.55rem;
+    border-radius: 1rem;
+  }
+
   .offer-media {
-    height: 11.5rem;
-    margin: 0.85rem 0 1rem;
+    aspect-ratio: 16 / 9.6;
     border-radius: 0.95rem;
   }
 
   .offer-media-street img {
-    transform: translateY(-12px) scale(1.02);
+    object-position: center 38%;
   }
 
   .offer-pricing {
-    margin: 0.7rem 0 0.45rem;
+    gap: 0.45rem;
   }
 
   .offer-pricing strong {
@@ -1943,7 +1957,7 @@ body.is-ready .hero-visual {
   }
 
   .offer-highlight {
-    margin-bottom: 0.95rem;
+    margin-bottom: 0.25rem;
     font-size: 0.92rem;
   }
 
@@ -2090,13 +2104,16 @@ body.is-ready .hero-visual {
     border-radius: 1.1rem;
   }
 
+  .offer-media-shell {
+    padding: 0.45rem;
+  }
+
   .offer-media {
-    height: 10.75rem;
-    margin: 0.75rem 0 0.9rem;
+    aspect-ratio: 16 / 10.5;
   }
 
   .offer-media-street img {
-    transform: translateY(-6px) scale(1.01);
+    object-position: center 40%;
   }
 
   .offer-badge {
